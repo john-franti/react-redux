@@ -1,9 +1,14 @@
-import redux from 'redux';
-const createStore = redux.createStore();
+// import redux, { applyMiddleware } from "redux";
+// import thunkMiddleware from "redux-thunk";
+const redux = require("redux");
+const applyMiddleware = redux.applyMiddleware;
+const createStore = redux.createStore;
+const thunkMiddleware = require("redux-thunk").default;
+const axios = require("axios");
 
 const initialState = {
   loading: false,
-  donuts: [],
+  donuts: {},
   error: ""
 };
 
@@ -26,8 +31,8 @@ const fetchDonutsSuccess = donuts => {
 
 const fetchDonutsError = error => {
   return {
-    type: FETCH_DONUTS_ERROR,
-    payload: error
+    type: FETCH_DONUTS_FAILURE,
+    error: error
   };
 };
 
@@ -47,10 +52,31 @@ const reducer = (state = initialState, action) => {
     case FETCH_DONUTS_FAILURE:
       return {
         loading: false,
-        donuts: [],
+        donuts: {},
         error: action.error
       };
   }
 };
 
-const store = createStore(reducer)
+const fetchDonuts = () => {
+  return dispatch => {
+    console.log("douts");
+    dispatch(fetchDonutsRequest());
+    //axios is needed when not in browser
+    axios
+      .get("http://localhost:3000/donuts")
+      .then(response => dispatch(fetchDonutsSuccess(response.data)))
+      .catch(error => {
+        dispatch(fetchDonutsError(error.message));
+      });
+  };
+};
+
+const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+
+store.subscribe(() => {
+  console.log(store.getState());
+});
+store.dispatch(fetchDonuts());
+
+//redux-thunk is needed for action creators in react
