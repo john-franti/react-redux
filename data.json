@@ -2,7 +2,7 @@
   "donuts": {
     "cake": { "name": "Cake Donut", "price": 0.85 },
     "cream": { "name": "Cream Filled Donut", "price": 1.05 },
-    "cinnamon": { "name": "Cinnamon Twist", "price": 0.9 },
+    "cinnamon": { "name": "Cinnamon Twist", "price": 0.91 },
     "sprinkles": { "name": "Chocolate with Sprinkles", "price": 0.95 }
   }
 }

@@ -6,7 +6,7 @@ export class DonutBrowser extends Component {
     return (
       <div>
         {Object.values(this.props.donuts).map((donut, index) => {
-          return <p key={index}>{donut.name}</p>;
+          return <p key={index}>{donut.name}  -- ${donut.price}</p>;
         })}
       </div>
     );
